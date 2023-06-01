@@ -19,7 +19,7 @@ let Signup = async(req, res) =>{
     
         const newUser = await User.create({name, company_name,mobile_no,role,email, password: hashPassword})
     
-        const token = jwt.sign({email: newUser.email}, 'blah')
+        const token = jwt.sign({email: newUser.email}, process.env.SECRET_KEY)
     
         return res.status(200).json({status: true,message: "User registered", newUser, token})
 
@@ -50,7 +50,7 @@ let Login = async(req, res) =>{
             return res.status(404).json({status:false, message: "Wrong Credentials"})
         }
 
-        const token = jwt.sign({userID: user._id},'blah')
+        const token = jwt.sign({userID: user._id},process.env.SECRET_KEY)
 
         return res.status(200).json({status:true,message: "Login Successful!", token: token,userId: user._id, name:name})
         
