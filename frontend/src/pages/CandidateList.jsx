@@ -6,8 +6,8 @@ import { Table } from "../components/Table";
 const CandidateList = () => {
   let [candidates, setCandidates] = useState([]);
 
+  let localToken = JSON.parse(localStorage.getItem("token"));
   let getCandidates = async () => {
-    let localToken = JSON.parse(localStorage.getItem("token"));
     let config = {
       headers: {
         authorization: `Bearer ${localToken}`,
@@ -18,22 +18,24 @@ const CandidateList = () => {
         data: { payload },
       } = await axios.get(`${candidatesUrl}`, config);
 
-      console.log(payload);
+      // console.log(payload);
       setCandidates(payload);
+
     } catch (error) {
       console.log(error);
     }
   };
-
   useEffect(() => {
     getCandidates();
   }, []);
+
+  if (!localToken) return <Navigate to="/login" />;
 
   return (
     <>
       <h1>Candidate List</h1>
 
-      <Table candidates={candidates} />
+      <Table candidates={candidates} getCandidates={getCandidates} />
     </>
   );
 };

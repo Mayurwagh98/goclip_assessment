@@ -4,6 +4,7 @@ import CreateCandidate from "../components/CreateCandidate";
 import axios from "axios";
 import { usersUrl } from "../main";
 import "../styles/Dashboard.css";
+import { Navigate } from "react-router-dom";
 
 const Dashboard = () => {
   let [user, setUser] = useState({});
@@ -21,9 +22,8 @@ const Dashboard = () => {
   };
 
   // user profile
+  let localToken = JSON.parse(localStorage.getItem("token"));
   let getMyProfile = async () => {
-    let localToken = JSON.parse(localStorage.getItem("token"));
-
     let config = {
       headers: {
         authorization: `Bearer ${localToken}`,
@@ -37,13 +37,15 @@ const Dashboard = () => {
       // console.log(user);
       setUser(user);
     } catch (error) {
-      console.log(data);
+      console.log(error);
     }
   };
 
   useEffect(() => {
     getMyProfile();
   }, []);
+
+  if (!localToken) return <Navigate to="/login" />;
 
   return (
     <>
@@ -58,7 +60,7 @@ const Dashboard = () => {
         type="primary"
         onClick={showModal}
         className="new_candidate"
-        style={{display: "block", margin: "1rem auto" }}
+        style={{ display: "block", margin: "1rem auto" }}
       >
         New Candidate
       </Button>

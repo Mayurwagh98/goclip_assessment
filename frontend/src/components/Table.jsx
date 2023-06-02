@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "../styles/Table.css";
-import {
-  EditFilled,
-  DeleteFilled,
-  InfoCircleFilled,
-} from "@ant-design/icons";
+import { EditFilled, DeleteFilled, InfoCircleFilled } from "@ant-design/icons";
+import { Button } from "antd";
+import EditCandidateProfile from "./EditCandidateProfile";
+import { candidatesUrl } from "../main";
+import axios from "axios";
+import {toast} from "react-hot-toast"
 
-function Table({ candidates }) {
+function Table({ candidates, getCandidates }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const pageNumbers = Math.ceil(candidates.length / rowsPerPage);
@@ -19,7 +20,21 @@ function Table({ candidates }) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setCurrentPage(1);
   };
-
+  let handleDelete = async (row) => {
+    let localToken = JSON.parse(localStorage.getItem("token"));
+    let config = {
+      headers: {
+        authorization: `Bearer ${localToken}`,
+      },
+    };
+    try {
+      let {data} = await axios.delete(`${candidatesUrl}/delete/${row._id}`, config);
+      getCandidates();
+      toast.success(data.message)
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const renderTablecandidates = () => {
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -30,10 +45,12 @@ function Table({ candidates }) {
         <td>{row.email}</td>
         <td>{row.role}</td>
         <td>
-          <EditFilled />
+          <EditCandidateProfile row={row} getCandidates={getCandidates} />
         </td>
         <td>
-          <DeleteFilled />
+          <Button onClick={() => handleDelete(row)}>
+            <DeleteFilled />
+          </Button>
         </td>
         <td>
           <InfoCircleFilled />

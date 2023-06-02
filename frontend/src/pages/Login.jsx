@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usersUrl } from "../main";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
   let [loginUserData, setLoginUserData] = useState({
@@ -17,14 +18,14 @@ const Login = () => {
     try {
       let { data } = await axios.post(`${usersUrl}/login`, loginUserData);
 
-      alert(data.message);
-
+      toast.success(data.message);
       // console.log(data);
       let { token } = data;
       localStorage.setItem("token", JSON.stringify(token));
       navigate("/");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
