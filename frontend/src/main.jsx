@@ -1,33 +1,15 @@
-import React, { createContext, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 
-export const Context = createContext({ isAuthenticated: false });
 
-const ContextWrapper = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
+export const usersUrl = `http://localhost:8000/api/users`;
 
-  return (
-    <Context.Provider
-      value={{
-        isAuthenticated,
-        setIsAuthenticated,
-        loading,
-        setLoading,
-        user,
-        setUser,
-      }}
-    >
-      <App />
-    </Context.Provider>
-  );
-};
+export const candidatesUrl = `http://localhost:8000/api/candidates`
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <ContextWrapper />
+    <App />
   </BrowserRouter>
 );

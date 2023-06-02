@@ -1,8 +1,10 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = () => {
+  let logoutHandler = async () => {};
+
   return (
     <>
       <nav>
@@ -10,11 +12,20 @@ const Navbar = () => {
           <li>
             <NavLink to="/">Dashboard</NavLink>
           </li>
+
           <li>
-            <NavLink to="/login">Login</NavLink>
+            <Link onClick={logoutHandler}>Logout</Link>
           </li>
+
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+
           <li>
             <NavLink to="/register">Signup</NavLink>
+          </li>
+          <li>
+            <NavLink to="/candidatelist">Candidates</NavLink>
           </li>
         </ul>
       </nav>

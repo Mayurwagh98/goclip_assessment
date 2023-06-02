@@ -3,6 +3,7 @@ import axios from "axios";
 import "../styles/Singnup.css";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { usersUrl } from "../main";
 
 const Signup = () => {
   let [signupData, setSignupData] = useState({
@@ -25,10 +26,7 @@ const Signup = () => {
 
   let signupUser = async () => {
     try {
-      let { data } = await axios.post(
-        "http://localhost:8000/api/users/register",
-        signupData
-      );
+      let { data } = await axios.post(`${usersUrl}/register`, signupData);
 
       console.log(data);
       toast.success(data.message);

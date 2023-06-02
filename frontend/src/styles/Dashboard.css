@@ -1,0 +1,12 @@
+.profile_div{
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem auto;
+    line-height: 2rem;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

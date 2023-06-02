@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import "../styles/Login.css";
-import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Context } from "../main";
-import { saveToken } from "../utils/localstorage";
+import { usersUrl } from "../main";
 
 const Login = () => {
   let [loginUserData, setLoginUserData] = useState({
@@ -12,22 +11,19 @@ const Login = () => {
     password: "",
   });
 
-  let { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  let navigate = useNavigate();
 
   let loginUser = async () => {
     try {
-      let { data } = await axios.post(
-        "http://localhost:8000/api/users/login",
-        loginUserData
-      );
+      let { data } = await axios.post(`${usersUrl}/login`, loginUserData);
 
       alert(data.message);
-      setIsAuthenticated(true);
+
+      // console.log(data);
       let { token } = data;
-      saveToken(token);
-      console.log(data);
+      localStorage.setItem("token", JSON.stringify(token));
+      navigate("/");
     } catch (error) {
-      setIsAuthenticated(false);
       console.log(error);
     }
   };
@@ -40,7 +36,6 @@ const Login = () => {
       [name]: value,
     });
   };
-
 
   return (
     <div>
