@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import "../styles/Table.css";
-import { EditFilled, DeleteFilled, InfoCircleFilled } from "@ant-design/icons";
+import { DeleteFilled, InfoCircleFilled } from "@ant-design/icons";
 import { Button } from "antd";
 import EditCandidateProfile from "./EditCandidateProfile";
 import { candidatesUrl } from "../main";
 import axios from "axios";
-import {toast} from "react-hot-toast"
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function Table({ candidates, getCandidates }) {
+  let navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const pageNumbers = Math.ceil(candidates.length / rowsPerPage);
@@ -28,9 +30,12 @@ function Table({ candidates, getCandidates }) {
       },
     };
     try {
-      let {data} = await axios.delete(`${candidatesUrl}/delete/${row._id}`, config);
+      let { data } = await axios.delete(
+        `${candidatesUrl}/delete/${row._id}`,
+        config
+      );
       getCandidates();
-      toast.success(data.message)
+      toast.success(data.message);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +58,9 @@ function Table({ candidates, getCandidates }) {
           </Button>
         </td>
         <td>
-          <InfoCircleFilled />
+          <Button onClick={() => navigate(`/details/${row._id}`)}>
+            <InfoCircleFilled />
+          </Button>
         </td>
       </tr>
     ));

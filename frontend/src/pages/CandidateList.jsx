@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { candidatesUrl } from "../main";
 import { Table } from "../components/Table";
+import { Navigate } from "react-router-dom";
 
 const CandidateList = () => {
   let [candidates, setCandidates] = useState([]);

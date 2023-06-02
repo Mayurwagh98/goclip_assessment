@@ -3,6 +3,7 @@ import axios from "axios";
 import { Input } from "antd";
 import { candidatesUrl } from "../main";
 import "../styles/CreateCandidate.css";
+import {toast} from "react-hot-toast"
 
 const CreateCandidate = () => {
   let [text, setText] = useState({
@@ -26,13 +27,14 @@ const CreateCandidate = () => {
         authorization: `Bearer ${localToken}`,
       },
     };
-    await axios
-      .post(`${candidatesUrl}/create`, text, config)
-      .then((res) => {
-        console.log(res.data);
-        alert(res.data.message);
-      })
-      .catch((e) => console.log(e));
+    try {
+      let { data } = await axios.post(`${candidatesUrl}/create`, text, config);
+
+      toast.success(data.message);
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   let handleChange = (event) => {
@@ -43,6 +45,7 @@ const CreateCandidate = () => {
     });
   };
 
+  if (!localToken) return <Navigate to="/login" />;
   return (
     <div className="main_form_div">
       <form onSubmit={(e) => e.preventDefault()} className="create_form">

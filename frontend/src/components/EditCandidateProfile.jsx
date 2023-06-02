@@ -13,8 +13,8 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
 
   let [refresh, setRefresh] = useState(false);
 
+  let localToken = JSON.parse(localStorage.getItem("token"));
   let updateCandidateProfile = async () => {
-    let localToken = JSON.parse(localStorage.getItem("token"));
     let config = {
       headers: {
         authorization: `Bearer ${localToken}`,
@@ -58,6 +58,7 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  if (!localToken) return <Navigate to="/login" />;
   return (
     <>
       <Tooltip title="Edit the blog" color="red">
