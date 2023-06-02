@@ -1,34 +1,22 @@
+const User = require("../models/User.model")
 const jwt = require("jsonwebtoken")
 
-const authorization = async(req, res, next) =>{
-    
-    const token = req.headers?.authorization?.split(" ")[1]
+let isAuthenticated = async(req, res, next) =>{
 
-    try {
-        
-        if(token){
+    const {token} = req.cookies
 
-            const decoded = jwt.verify(token, process.env.SECRET_KEY)
-            if(decoded){
-
-                const userID = decoded.userID
-    
-                req.body.userID = userID
-
-                next()
-            }
-            else{
-                return res.send("You need to login")
-            }
-        }
-        else{
-            return res.status(400).send({message: "You need to login"})
-        }
-
-
-    } catch (error) {
-        return res.status(500).send({message: error.message})
+    if(!token){
+        return res.status(400).json({
+            status: false,
+            message: "Login First"
+        })
     }
+
+    const decoded = await jwt.verify(token, process.env.SECRET_KEY)
+
+    req.user = await User.findById(decoded._id)
+
+    next()
 }
 
-module.exports = authorization
+module.exports = isAuthenticated

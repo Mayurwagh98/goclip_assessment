@@ -1,10 +1,10 @@
 const candidateRouter = require("express").Router()
 const {getAllCandidates, createCandidate, updateCandidate, deleteCandidate} = require("../controllers/Candidate.controller")
-const authentication = require("../middleware/auth")
+const isAuthenticated = require("../middleware/auth")
 
 candidateRouter.get("/",getAllCandidates)
-candidateRouter.post("/create", authentication,createCandidate)
-candidateRouter.patch("/update/:id", authentication,updateCandidate)
-candidateRouter.delete("/delete/:id", authentication,deleteCandidate)
+candidateRouter.post("/create", isAuthenticated,createCandidate)
+candidateRouter.patch("/update/:id", isAuthenticated,updateCandidate)
+candidateRouter.delete("/delete/:id", isAuthenticated,deleteCandidate)
 
 module.exports = candidateRouter

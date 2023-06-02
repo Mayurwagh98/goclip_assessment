@@ -1,62 +1,81 @@
-const bcrypt = require("bcrypt")
+const { ErrorHandler } = require("../middleware/ErrorHandler")
 const User = require("../models/User.model")
-const jwt = require("jsonwebtoken")
+const sendToken = require("../utils/token")
+const bcrypt = require("bcrypt")
 
-
-let Signup = async(req, res) =>{
+// user auth
+let Signup = async(req, res, next) =>{
     
-    let { name, company_name,mobile_no,role,email, password} = req.body
-
-    let user = await User.findOne({email})
-    try {
-        
-        if(user){
-    
-            return res.status(200).json({message: "User already exists"})
-        }
-    
-        const hashPassword = await bcrypt.hash(password, 10)
-    
-        const newUser = await User.create({name, company_name,mobile_no,role,email, password: hashPassword})
-    
-        const token = jwt.sign({email: newUser.email}, process.env.SECRET_KEY)
-    
-        return res.status(200).json({status: true,message: "User registered", newUser, token})
-
-    } catch (error) {
-        
-        return res.status(500).json({
-            status:false,
-            message: error.message
-        })
-    }
-
-}
-
-let Login = async(req, res) =>{
-
     let {name, email, password} = req.body
 
     let user = await User.findOne({email})
-    try {
 
-        if(!user){
-            return res.status(400).json({status: false,message: "User doesn't exists"})
-        }
+    try{
+        if(user) return next(new ErrorHandler("User Already Registered", 400))
 
-        const matchPassword = await bcrypt.compare(password, user.password)
+        let hashedPassword = await bcrypt.hash(password, 10)
 
-        if(!matchPassword){
-            return res.status(404).json({status:false, message: "Wrong Credentials"})
-        }
+        user = await User.create({name, email, password: hashedPassword})
 
-        const token = jwt.sign({userID: user._id},process.env.SECRET_KEY)
+        sendToken(res, "Registered Successfully", 201, user)
 
-        return res.status(200).json({status:true,message: "Login Successful!", token: token,userId: user._id, name:name})
-        
-    } catch (error) {
-        return res.status(500).json({status: false,message: error.message})
+    }
+    catch(error){
+        return res.status(500).json({
+            message: error.message
+         })
     }
 }
 
-module.exports = {Signup, Login}
+let Login = async(req, res, next) =>{
+
+    let {email, password} = req.body
+//using select because in the schema I have kept select: false, so I can't access password without using select
+    let user = await User.findOne({email}).select("+password") 
+
+    try{
+        if(!user) return next(new ErrorHandler("Invalid Credentials", 400))
+
+        let matchedPassword = await bcrypt.compare(password, user.password)
+
+        if(!matchedPassword) return next(new ErrorHandler("Invalid Credentials", 400))
+
+        sendToken(res, `Welcome ${user.name}`, 200, user)
+    }
+    catch(error){
+     return res.status(500).json({
+        message: error.message
+     })
+    }
+
+}
+
+
+let getMyProfile = async(req, res, next) =>{
+
+    try {
+        return res.status(200).json({
+            status: true,
+            user: req.user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+         })
+    }
+}
+
+let Logout = (req,res) =>{
+    return res.status(200).cookie("token","",{
+        expires:new Date(Date.now()), 
+        httpOnly: true,
+        maxAge: 15 * 60000, // cookie will be deleted after 15 mins
+        sameSite: process.env.NODE_ENV === "Development"? "lax":"none", // to be able to access from diff domains
+        secure: process.env.NODE_ENV === "Development"? false: true}).json({
+        success:true,
+        // user:req.user,
+        message: "Logged Out"
+    })
+}
+
+module.exports = {Signup, Login, getMyProfile, Logout}
