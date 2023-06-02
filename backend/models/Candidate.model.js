@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 
 const candidateSchema = mongoose.Schema({
+    userID:String,
     name: {type:String, required:true},
     email:{type:String, required:true},
     mobile_no:{type:Number, required:true},
