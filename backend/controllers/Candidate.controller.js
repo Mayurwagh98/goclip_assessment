@@ -16,7 +16,7 @@ const getAllCandidates = async(req, res) =>{
     }
 }
 
-const createCandidate = async(req, res, next) =>{
+const createCandidate = async(req, res) =>{
 
     let {email} = req.body
 
