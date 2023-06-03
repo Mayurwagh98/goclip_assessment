@@ -17,3 +17,9 @@
 .profile_div > p{
     font-size: 1.2rem;
 }
+.new_candidate_and_candidates{
+    /* border: 1px solid red; */
+    display: flex;
+    margin: auto;
+    width: 50%;
+}

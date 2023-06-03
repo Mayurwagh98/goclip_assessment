@@ -2,10 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Button, Modal } from "antd";
 import CreateCandidate from "../components/CreateCandidate";
 import "../styles/Dashboard.css";
-import { Navigate } from "react-router-dom";
 import { Context, usersUrl } from "../main";
-import { toast } from "react-hot-toast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const {
@@ -16,6 +15,7 @@ const Dashboard = () => {
     setLoading,
     user,
   } = useContext(Context);
+  let navigate = useNavigate();
 
   // -------------- modal -----------
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,7 +53,6 @@ const Dashboard = () => {
     getMyProfile();
   }, []);
 
-
   return !user ? (
     <h1>Loading...........</h1>
   ) : (
@@ -65,14 +64,36 @@ const Dashboard = () => {
         <p>Role:- {user.role}</p>
         <p>Mobile No:- {user.mobile_no}</p>
       </div>
-      <Button
-        type="primary"
-        onClick={showModal}
-        className="new_candidate"
-        style={{ display: "block", margin: "1rem auto" }}
-      >
-        New Candidate
-      </Button>
+      <div className="new_candidate_and_candidates">
+        <Button
+          type="primary"
+          onClick={showModal}
+          className="new_candidate"
+          style={{
+            display: "block",
+            margin: "1rem auto",
+            borderRadius: "0.5rem",
+            width: "10rem",
+            height: "2.5rem",
+          }}
+        >
+          New Candidate
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => navigate("/candidatelist")}
+          className="new_candidate"
+          style={{
+            display: "block",
+            margin: "1rem auto",
+            borderRadius: "0.5rem",
+            width: "10rem",
+            height: "2.5rem",
+          }}
+        >
+          Candidates
+        </Button>
+      </div>
       <Modal
         title=""
         open={isModalOpen}

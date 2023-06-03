@@ -46,11 +46,9 @@ const CreateCandidate = () => {
     });
   };
 
-
   return (
     <div className="main_form_div">
       <form onSubmit={(e) => e.preventDefault()} className="create_form">
-        {/* <h1>Create Your Profile</h1> */}
         <label>Name *</label>
         <Input
           type="text"
@@ -124,7 +122,7 @@ const CreateCandidate = () => {
         <br />
         <input
           type="submit"
-          value="Post Event"
+          value="Save Profile"
           onClick={handleCreate}
           className="create_input"
           style={{

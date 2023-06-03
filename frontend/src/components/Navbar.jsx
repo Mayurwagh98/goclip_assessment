@@ -20,27 +20,30 @@ const Navbar = () => {
   return (
     <>
       <nav>
-        <ul>
-          <li>
-            <NavLink to="/">Dashboard</NavLink>
-          </li>
-          {isAuthenticated ? (
+        <div>
+          <h1 onClick={() => navigate("/")}>goclip</h1>
+        </div>
+        <div>
+          {" "}
+          <ul>
             <li>
-              <Link onClick={logoutHandler}>Logout</Link>
+              <NavLink to="/">Dashboard</NavLink>
             </li>
-          ) : (
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          )}
+            {isAuthenticated ? (
+              <li>
+                <Link onClick={logoutHandler}>Logout</Link>
+              </li>
+            ) : (
+              <li>
+                <Link to="/login">Login</Link>
+              </li>
+            )}
 
-          <li>
-            <NavLink to="/register">Signup</NavLink>
-          </li>
-          <li>
-            <NavLink to="/candidatelist">Candidates</NavLink>
-          </li>
-        </ul>
+            <li>
+              <NavLink to="/register">Signup</NavLink>
+            </li>
+          </ul>
+        </div>
       </nav>
     </>
   );
