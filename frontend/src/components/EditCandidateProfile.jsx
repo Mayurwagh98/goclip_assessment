@@ -6,7 +6,6 @@ import { candidatesUrl } from "../main";
 import { toast } from "react-hot-toast";
 import { useContext } from "react";
 import { Context } from "../main";
-import { Navigate } from "react-router-dom";
 
 const EditCandidateProfile = ({ row, getCandidates }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,31 +17,31 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
     gender: "Male",
     nationality: "",
     martial_status: "Single",
-    linkedin: "",
+    linkedin: "NA",
     post_grad: "",
-    post_grad_college_name: "",
-    post_grad_city: "",
-    post_grad_year: "",
-    post_grad_course: "",
+    post_grad_college_name: "NA",
+    post_grad_city: "NA",
+    post_grad_year: "NA",
+    post_grad_course: "NA",
     graduation: "",
-    grad_college_name: "",
-    grad_city: "",
-    grad_year: "",
-    grad_course: "",
+    grad_college_name: "NA",
+    grad_city: "NA",
+    grad_year: "NA",
+    grad_course: "NA",
     secondary_school: "",
-    secondary_school_name: "",
-    secondary_school_city: "",
-    secondary_school_year: "",
-    secondary_school_course: "",
-    hobbies: "",
-    preffered_job_location: "",
-    skills: "",
-    certification_name: "",
-    certification_org: "",
-    certification_date: "",
-    job_exp_company_name: "",
-    job_exp_role: "",
-    job_exp_duration: "",
+    secondary_school_name: "NA",
+    secondary_school_city: "NA",
+    secondary_school_year: "NA",
+    secondary_school_course: "NA",
+    hobbies: ["NA"],
+    preffered_job_location: "NA",
+    skills: ["NA"],
+    certification_name: "NA",
+    certification_org: "NA",
+    certification_date: "NA",
+    job_exp_company_name: "NA",
+    job_exp_role: "NA",
+    job_exp_duration: "NA",
   });
 
   let [refresh, setRefresh] = useState(false);
@@ -65,7 +64,7 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
       toast.success(data.message);
       setRefresh(true);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
       setRefresh(false);
     }
   };
@@ -76,7 +75,11 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
 
   let handleChange = (event) => {
     let { name, value } = event.target;
-
+    if (name === "hobbies") {
+      value = value.split(",");
+    } else if (name === "skills") {
+      value = value.split(",");
+    }
     setUpdateText({
       ...updateText,
       [name]: value,
@@ -305,6 +308,15 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
             onChange={handleChange}
           />
           <br />
+          <label>Skills</label>
+          <Input
+            type="text"
+            placeholder="Enter your skills"
+            name="skills"
+            value={updateText.skills}
+            onChange={handleChange}
+          />
+          <br />
           <label>Preffered Job Location</label>
           <Input
             type="text"
@@ -335,7 +347,7 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
           <label>Certification Date</label>
           <Input
             type="text"
-            placeholder="Enter your certification date"
+            placeholder="yy-mm-dd"
             name="certification_date"
             value={updateText.certification_date}
             onChange={handleChange}
@@ -354,7 +366,7 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
           <Input
             type="text"
             placeholder="Enter your job exp company role"
-            name="job_exp_company_role"
+            name="job_exp_role"
             value={updateText.job_exp_role}
             onChange={handleChange}
           />
@@ -363,7 +375,7 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
           <Input
             type="text"
             placeholder="Enter your job exp duration"
-            name="job_exp_company_duration"
+            name="job_exp_duration"
             value={updateText.job_exp_duration}
             onChange={handleChange}
           />

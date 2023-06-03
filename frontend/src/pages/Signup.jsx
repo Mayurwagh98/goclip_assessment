@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/Singnup.css";
 import { toast } from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usersUrl } from "../main";
 
 const Signup = () => {
@@ -14,7 +14,7 @@ const Signup = () => {
     role: "",
     password: "",
   });
-
+let navigate = useNavigate()
   let handleForm = (event) => {
     let { name, value } = event.target;
 
@@ -28,8 +28,8 @@ const Signup = () => {
     try {
       let { data } = await axios.post(`${usersUrl}/register`, signupData);
 
-      console.log(data);
       toast.success(data.message);
+      navigate("/login")
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

@@ -6,7 +6,7 @@ import "../styles/CandidateList.css";
 
 const CandidateList = () => {
   let [candidates, setCandidates] = useState([]);
-  const { localToken } = useContext(Context);
+  const { localToken, setIsAuthenticated } = useContext(Context);
   let [search, setSearch] = useState("");
 
   let getCandidates = async () => {
@@ -21,6 +21,7 @@ const CandidateList = () => {
       } = await axios.get(`${candidatesUrl}`, config);
 
       setCandidates(payload);
+      setIsAuthenticated(true);
     } catch (error) {
       console.log(error);
     }

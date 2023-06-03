@@ -6,6 +6,3 @@
     border: "none";
     background-color: lightgray
 }
-.search:focus{
-    background-color: red;
-}

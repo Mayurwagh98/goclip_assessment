@@ -20,9 +20,8 @@ const CandidateDetails = () => {
         data: { existingCandidate },
       } = await axios.get(`${candidatesUrl}/${id}`, config);
 
-      console.log(existingCandidate);
-
       setCandidateDetails(existingCandidate);
+      console.log(existingCandidate);
     } catch (error) {
       console.log(error);
     }
@@ -55,6 +54,9 @@ const CandidateDetails = () => {
         </p>
         <p>
           Nationality:- <span>{candidateDetails.nationality}</span>
+        </p>
+        <p>
+          LinkedIn:- <span>{candidateDetails.linkedin}</span>
         </p>
       </div>
       <div>
@@ -110,11 +112,18 @@ const CandidateDetails = () => {
       </div>
       <div>
         <p>
-          Hobbies:- <span>{candidateDetails.hobbies}</span>
+          Hobbies:-{" "}
+          {candidateDetails.hobbies?.map((item, index) => (
+            <span key={index}>{item},</span>
+          ))}
         </p>
         <p>
-          Skills:- <span>{candidateDetails.skills}</span>
+          Skills:-{" "}
+          {candidateDetails.skills?.map((item, index) => (
+            <span key={index}>{item},</span>
+          ))}
         </p>
+
         <p>
           Preffered Job Location:-{" "}
           <span>{candidateDetails.preffered_job_location}</span>{" "}

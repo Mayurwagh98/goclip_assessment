@@ -16,24 +16,24 @@ const CreateCandidate = () => {
     nationality: "",
     martial_status: "Single",
     linkedin: "",
-    post_grad: "",
+    post_grad: "YES",
     post_grad_college_name: "",
     post_grad_city: "",
     post_grad_year: "",
     post_grad_course: "",
-    graduation: "",
+    graduation: "YES",
     grad_college_name: "",
     grad_city: "",
     grad_year: "",
     grad_course: "",
-    secondary_school: "",
+    secondary_school: "YES",
     secondary_school_name: "",
     secondary_school_city: "",
     secondary_school_year: "",
     secondary_school_course: "",
-    hobbies: "",
+    hobbies: [],
     preffered_job_location: "",
-    skills: "",
+    skills: [],
     certification_name: "",
     certification_org: "",
     certification_date: "",
@@ -62,6 +62,11 @@ const CreateCandidate = () => {
 
   let handleChange = (event) => {
     let { name, value } = event.target;
+    if (name === "hobbies") {
+      value = value.split(",");
+    } else if (name === "skills") {
+      value = value.split(",");
+    } 
     setText({
       ...text,
       [name]: value,
@@ -78,6 +83,7 @@ const CreateCandidate = () => {
           name="name"
           value={text.name}
           onChange={handleChange}
+          required
         />
         <label>Email *</label>
         <Input
@@ -86,14 +92,16 @@ const CreateCandidate = () => {
           name="email"
           value={text.email}
           onChange={handleChange}
+          required
         />
         <label>Mobile No *</label>
         <Input
-          type="number"
+          type="text"
           placeholder="Enter your mobile no"
           name="mobile_no"
           value={text.mobile_no}
           onChange={handleChange}
+          required
         />
         <label>Role *</label>
         <Input
@@ -102,9 +110,10 @@ const CreateCandidate = () => {
           name="role"
           value={text.role}
           onChange={handleChange}
+          required
         />
         <label>Gender *</label>
-        <select onChange={handleChange} name="gender">
+        <select onChange={handleChange} name="gender" required>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
@@ -116,6 +125,7 @@ const CreateCandidate = () => {
           name="nationality"
           value={text.nationality}
           onChange={handleChange}
+          required
         />
         <br />
         <label>LinkedIn</label>
@@ -128,13 +138,13 @@ const CreateCandidate = () => {
         />
         <br />
         <label>Martial Status *</label>
-        <select onChange={handleChange} name="martial_status">
+        <select onChange={handleChange} name="martial_status" required>
           <option value="single">Single</option>
           <option value="married">Married</option>
         </select>
         <br />
         <label>Post Grad *</label>
-        <select onChange={handleChange} name="post_grad">
+        <select onChange={handleChange} name="post_grad" required>
           <option value="yes">YES</option>
           <option value="no">NO</option>
         </select>
@@ -176,7 +186,7 @@ const CreateCandidate = () => {
         />
         <br />
         <label>Grad *</label>
-        <select onChange={handleChange} name="graduation">
+        <select onChange={handleChange} name="graduation" required>
           <option value="yes">YES</option>
           <option value="no">NO</option>
         </select>
@@ -218,7 +228,7 @@ const CreateCandidate = () => {
         />
         <br />
         <label>12th *</label>
-        <select onChange={handleChange} name="secondary_school">
+        <select onChange={handleChange} name="secondary_school" required>
           <option value="yes">YES</option>
           <option value="no">NO</option>
         </select>
@@ -227,7 +237,7 @@ const CreateCandidate = () => {
         <Input
           type="text"
           placeholder="Enter your 12th college"
-          name="secondary_college_name"
+          name="secondary_school_name"
           value={text.secondary_school_name}
           onChange={handleChange}
         />
@@ -268,6 +278,15 @@ const CreateCandidate = () => {
           onChange={handleChange}
         />
         <br />
+        <label>Skills</label>
+        <Input
+          type="text"
+          placeholder="Enter your skills"
+          name="skills"
+          value={text.skills}
+          onChange={handleChange}
+        />
+        <br />
         <label>Preffered Job Location</label>
         <Input
           type="text"
@@ -298,7 +317,7 @@ const CreateCandidate = () => {
         <label>Certification Date</label>
         <Input
           type="text"
-          placeholder="Enter your certification date"
+          placeholder="yy-mm-dd"
           name="certification_date"
           value={text.certification_date}
           onChange={handleChange}
@@ -317,8 +336,8 @@ const CreateCandidate = () => {
         <Input
           type="text"
           placeholder="Enter your job exp company role"
-          name="job_exp_company_role"
-          value={text.job_exp_role}
+          name="job_exp_role"
+          value={text.job_exp}
           onChange={handleChange}
         />
         <br />
@@ -326,7 +345,7 @@ const CreateCandidate = () => {
         <Input
           type="text"
           placeholder="Enter your job exp duration"
-          name="job_exp_company_duration"
+          name="job_exp_duration"
           value={text.job_exp_duration}
           onChange={handleChange}
         />
