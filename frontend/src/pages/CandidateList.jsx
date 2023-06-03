@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Context, candidatesUrl } from "../main";
 import { Table } from "../components/Table";
-import { Navigate } from "react-router-dom";
+import "../styles/CandidateList.css";
 
 const CandidateList = () => {
   let [candidates, setCandidates] = useState([]);
   const { localToken } = useContext(Context);
+  let [search, setSearch] = useState("");
 
   let getCandidates = async () => {
     let config = {
@@ -26,11 +27,21 @@ const CandidateList = () => {
   };
   useEffect(() => {
     getCandidates();
-  }, []);
+  }, [search]);
 
   return (
     <>
-      <Table candidates={candidates} getCandidates={getCandidates} />
+      <input
+        type="text"
+        placeholder="search here"
+        onChange={(e) => setSearch(e.target.value)}
+        className="search"
+      />
+      <Table
+        candidates={candidates}
+        getCandidates={getCandidates}
+        search={search}
+      />
     </>
   );
 };

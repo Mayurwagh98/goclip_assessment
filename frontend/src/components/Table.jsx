@@ -6,11 +6,11 @@ import EditCandidateProfile from "./EditCandidateProfile";
 import { candidatesUrl } from "../main";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../main";
 
-function Table({ candidates, getCandidates }) {
+function Table({ candidates, getCandidates, search }) {
   const { localToken } = useContext(Context);
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,31 +46,36 @@ function Table({ candidates, getCandidates }) {
     const start = (currentPage - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return candidates.slice(start, end).map((row) => (
-      <tr key={row._id}>
-        <td>{row.name}</td>
-        <td>{row.email}</td>
-        <td>{row.role}</td>
-        <td>{row.mobile_no}</td>
-        <td>
-          <EditCandidateProfile row={row} getCandidates={getCandidates} />
-        </td>
-        <td>
-          <Tooltip title="Delete" color="red">
-            <Button onClick={() => handleDelete(row)}>
-              <DeleteFilled />
-            </Button>
-          </Tooltip>
-        </td>
-        <td>
-          <Tooltip title="Details" color="red">
-            <Button onClick={() => navigate(`/details/${row._id}`)}>
-              <InfoCircleFilled />
-            </Button>
-          </Tooltip>
-        </td>
-      </tr>
-    ));
+    return candidates
+      ?.slice(start, end)
+      .filter((el) => {
+        return el.name.toLowerCase().includes(search.toLowerCase());
+      })
+      .map((row) => (
+        <tr key={row._id}>
+          <td>{row.name}</td>
+          <td>{row.email}</td>
+          <td>{row.role}</td>
+          <td>{row.mobile_no}</td>
+          <td>
+            <EditCandidateProfile row={row} getCandidates={getCandidates} />
+          </td>
+          <td>
+            <Tooltip title="Delete" color="red">
+              <Button onClick={() => handleDelete(row)}>
+                <DeleteFilled />
+              </Button>
+            </Tooltip>
+          </td>
+          <td>
+            <Tooltip title="Details" color="red">
+              <Button onClick={() => navigate(`/details/${row._id}`)}>
+                <InfoCircleFilled />
+              </Button>
+            </Tooltip>
+          </td>
+        </tr>
+      ));
   };
 
   const renderPageNumbers = () => {

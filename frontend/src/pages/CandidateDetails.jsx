@@ -20,6 +20,8 @@ const CandidateDetails = () => {
         data: { existingCandidate },
       } = await axios.get(`${candidatesUrl}/${id}`, config);
 
+      console.log(existingCandidate);
+
       setCandidateDetails(existingCandidate);
     } catch (error) {
       console.log(error);
@@ -29,7 +31,6 @@ const CandidateDetails = () => {
   useEffect(() => {
     getDetails();
   }, []);
-
 
   return (
     <div className="main_details_div">
@@ -105,6 +106,30 @@ const CandidateDetails = () => {
         </p>
         <p>
           Course:- <span>{candidateDetails.secondary_school_course}</span>
+        </p>
+      </div>
+      <div>
+        <p>
+          Hobbies:- <span>{candidateDetails.hobbies}</span>
+        </p>
+        <p>
+          Skills:- <span>{candidateDetails.skills}</span>
+        </p>
+        <p>
+          Preffered Job Location:-{" "}
+          <span>{candidateDetails.preffered_job_location}</span>{" "}
+        </p>
+        <p>
+          Certification Name:-{" "}
+          <span>{candidateDetails.certification_name}</span>{" "}
+        </p>
+        <p>
+          Certification Organization:-{" "}
+          <span>{candidateDetails.certification_org}</span>{" "}
+        </p>
+        <p>
+          Certification Date:-{" "}
+          <span>{candidateDetails.certification_date}</span>{" "}
         </p>
       </div>
       <div>
