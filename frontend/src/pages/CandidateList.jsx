@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { candidatesUrl } from "../main";
+import { Context, candidatesUrl } from "../main";
 import { Table } from "../components/Table";
 import { Navigate } from "react-router-dom";
 
 const CandidateList = () => {
   let [candidates, setCandidates] = useState([]);
+  const { localToken } = useContext(Context);
 
-  let localToken = JSON.parse(localStorage.getItem("token"));
   let getCandidates = async () => {
     let config = {
       headers: {
@@ -19,7 +19,6 @@ const CandidateList = () => {
         data: { payload },
       } = await axios.get(`${candidatesUrl}`, config);
 
-      // console.log(payload);
       setCandidates(payload);
     } catch (error) {
       console.log(error);
@@ -28,8 +27,6 @@ const CandidateList = () => {
   useEffect(() => {
     getCandidates();
   }, []);
-
-  if (!localToken) return <Navigate to="/login" />;
 
   return (
     <>

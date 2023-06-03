@@ -20,7 +20,7 @@ const CreateCandidate = () => {
     secondary_school: "NO",
   });
 
-  const { isAuthenticated, localToken } = useContext(Context);
+  const { localToken } = useContext(Context);
 
   let handleCreate = async () => {
     let config = {
@@ -46,7 +46,7 @@ const CreateCandidate = () => {
     });
   };
 
-  if (!isAuthenticated) return <Navigate to="/login" />;
+
   return (
     <div className="main_form_div">
       <form onSubmit={(e) => e.preventDefault()} className="create_form">

@@ -11,7 +11,7 @@ import { useContext } from "react";
 import { Context } from "../main";
 
 function Table({ candidates, getCandidates }) {
-  const { isAuthenticated, localToken } = useContext(Context);
+  const { localToken } = useContext(Context);
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -87,7 +87,6 @@ function Table({ candidates, getCandidates }) {
     return pageList;
   };
 
-  if (!isAuthenticated) return <Navigate />;
   return (
     <>
       <div className="rows_per_page">

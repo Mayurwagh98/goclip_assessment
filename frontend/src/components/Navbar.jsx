@@ -6,10 +6,8 @@ import { Context } from "../main";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  let localToken = JSON.parse(localStorage.getItem("token"));
   let navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } =
-    useContext(Context);
+  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
   let logoutHandler = async () => {
     localStorage.clear();
@@ -26,7 +24,7 @@ const Navbar = () => {
           <li>
             <NavLink to="/">Dashboard</NavLink>
           </li>
-          {isAuthenticated? (
+          {isAuthenticated ? (
             <li>
               <Link onClick={logoutHandler}>Logout</Link>
             </li>

@@ -6,7 +6,7 @@ import "../styles/CandidateDetails.css";
 
 const CandidateDetails = () => {
   let { id } = useParams();
-  const { isAuthenticated, localToken } = useContext(Context);
+  const { localToken } = useContext(Context);
   let [candidateDetails, setCandidateDetails] = useState({});
 
   let getDetails = async () => {
@@ -30,7 +30,6 @@ const CandidateDetails = () => {
     getDetails();
   }, []);
 
-  if (!localToken) return <Navigate to="/login" />;
 
   return (
     <div className="main_details_div">

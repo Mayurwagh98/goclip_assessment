@@ -16,7 +16,7 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
 
   let [refresh, setRefresh] = useState(false);
 
-  const { isAuthenticated, localToken } =
+  const { localToken } =
   useContext(Context);
 
   let updateCandidateProfile = async () => {
@@ -63,7 +63,7 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  if (!isAuthenticated) return <Navigate to="/login" />;
+
   return (
     <>
       <Tooltip title="Edit" color="red">
