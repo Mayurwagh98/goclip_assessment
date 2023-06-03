@@ -52,11 +52,19 @@ let Login = async(req, res) =>{
 
         const token = jwt.sign({userID: user._id},process.env.SECRET_KEY)
 
-        return res.status(200).json({success:true,message: "Login Successful!", token: token,userId: user._id, name:name})
+        return res.status(200).json({success:true,message: "Login Successfull!", token: token,userId: user._id, name:name})
 
     } catch (error) {
         return res.status(500).json({success: false,message: error.message})
     }
 }
 
-module.exports = {Signup, Login}
+const myprofile = (req, res) =>{
+    return res.status(200).json({
+        success: true,
+        user: req.user
+    })
+}
+
+
+module.exports = {Signup, Login, myprofile}

@@ -16,7 +16,28 @@ const getAllCandidates = async(req, res) =>{
     }
 }
 
-const createCandidate = async(req, res) =>{
+const getCandidatesDetails = async(req, res) =>{
+
+    let {id} = req.params
+
+    let existingCandidate = await Candidate.findById(id)
+
+    try {
+        if(!existingCandidate) return next(new ErrorHandler("Candidate doesn't exists",404))
+
+        return res.status(200).json({
+            success: true,
+            existingCandidate
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+const createCandidate = async(req, res, next) =>{
 
     let {email} = req.body
 
@@ -89,4 +110,4 @@ const deleteCandidate = async(req, res, next) =>{
 
 }
 
-module.exports = {getAllCandidates, createCandidate, updateCandidate, deleteCandidate}
+module.exports = {getAllCandidates, createCandidate, updateCandidate, deleteCandidate, getCandidatesDetails}

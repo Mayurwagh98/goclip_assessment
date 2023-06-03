@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+const User = require("../models/User.model")
 
 const authorization = async(req, res, next) =>{
 
@@ -14,6 +15,8 @@ const authorization = async(req, res, next) =>{
                 const userID = decoded.userID
 
                 req.body.userID = userID
+
+                req.user = await User.findById(userID)
 
                 next()
             }
