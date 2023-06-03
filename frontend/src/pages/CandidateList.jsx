@@ -21,7 +21,6 @@ const CandidateList = () => {
 
       // console.log(payload);
       setCandidates(payload);
-
     } catch (error) {
       console.log(error);
     }
@@ -34,8 +33,6 @@ const CandidateList = () => {
 
   return (
     <>
-      <h1>Candidate List</h1>
-
       <Table candidates={candidates} getCandidates={getCandidates} />
     </>
   );

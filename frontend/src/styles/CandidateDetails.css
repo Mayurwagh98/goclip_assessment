@@ -1,13 +1,21 @@
 .main_details_div {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    width: 60%;
+    width: 50%;
     margin: auto;
-    
-    /* gap: 1rem; */
+ 
 }
+
 .main_details_div div{
-    border: 1px solid red;
-    padding: 0.5rem;
+    /* border: 1px solid red; */
+    padding: 1rem;
     font-size: 1.1rem;
+}
+p{
+    font-weight: 330;
+    font-size: 1rem;
+}
+p > span{
+    font-size: 1.2rem;
+    font-weight: 650;
 }

@@ -4,6 +4,9 @@ import { EditFilled } from "@ant-design/icons";
 import axios from "axios";
 import { candidatesUrl } from "../main";
 import { toast } from "react-hot-toast";
+import { useContext } from "react";
+import { Context } from "../main";
+import { Navigate } from "react-router-dom";
 
 const EditCandidateProfile = ({ row, getCandidates }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +16,9 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
 
   let [refresh, setRefresh] = useState(false);
 
-  let localToken = JSON.parse(localStorage.getItem("token"));
+  const { isAuthenticated, localToken } =
+  useContext(Context);
+
   let updateCandidateProfile = async () => {
     let config = {
       headers: {
@@ -58,10 +63,10 @@ const EditCandidateProfile = ({ row, getCandidates }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  if (!localToken) return <Navigate to="/login" />;
+  if (!isAuthenticated) return <Navigate to="/login" />;
   return (
     <>
-      <Tooltip title="Edit the blog" color="red">
+      <Tooltip title="Edit" color="red">
         <Button type="primary" onClick={showModal}>
           <EditFilled />
         </Button>

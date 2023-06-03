@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../styles/Login.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { usersUrl } from "../main";
 import { toast } from "react-hot-toast";
+import { Context } from "../main";
 
 const Login = () => {
   let [loginUserData, setLoginUserData] = useState({
     email: "",
     password: "",
   });
+  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
   let navigate = useNavigate();
 
@@ -19,12 +21,15 @@ const Login = () => {
       let { data } = await axios.post(`${usersUrl}/login`, loginUserData);
 
       toast.success(data.message);
-      // console.log(data);
       let { token } = data;
       localStorage.setItem("token", JSON.stringify(token));
-      navigate("/");
+      setIsAuthenticated(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
+      setIsAuthenticated(false);
       toast.error(error.response.data.message);
     }
   };

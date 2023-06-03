@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import "../styles/Table.css";
 import { DeleteFilled, InfoCircleFilled } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import EditCandidateProfile from "./EditCandidateProfile";
 import { candidatesUrl } from "../main";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../main";
 
 function Table({ candidates, getCandidates }) {
-  let navigate = useNavigate()
+  const { isAuthenticated, localToken } = useContext(Context);
+  let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const pageNumbers = Math.ceil(candidates.length / rowsPerPage);
@@ -23,7 +26,6 @@ function Table({ candidates, getCandidates }) {
     setCurrentPage(1);
   };
   let handleDelete = async (row) => {
-    let localToken = JSON.parse(localStorage.getItem("token"));
     let config = {
       headers: {
         authorization: `Bearer ${localToken}`,
@@ -49,18 +51,23 @@ function Table({ candidates, getCandidates }) {
         <td>{row.name}</td>
         <td>{row.email}</td>
         <td>{row.role}</td>
+        <td>{row.mobile_no}</td>
         <td>
           <EditCandidateProfile row={row} getCandidates={getCandidates} />
         </td>
         <td>
-          <Button onClick={() => handleDelete(row)}>
-            <DeleteFilled />
-          </Button>
+          <Tooltip title="Delete" color="red">
+            <Button onClick={() => handleDelete(row)}>
+              <DeleteFilled />
+            </Button>
+          </Tooltip>
         </td>
         <td>
-          <Button onClick={() => navigate(`/details/${row._id}`)}>
-            <InfoCircleFilled />
-          </Button>
+          <Tooltip title="Details" color="red">
+            <Button onClick={() => navigate(`/details/${row._id}`)}>
+              <InfoCircleFilled />
+            </Button>
+          </Tooltip>
         </td>
       </tr>
     ));
@@ -80,6 +87,7 @@ function Table({ candidates, getCandidates }) {
     return pageList;
   };
 
+  if (!isAuthenticated) return <Navigate />;
   return (
     <>
       <div className="rows_per_page">
@@ -97,6 +105,7 @@ function Table({ candidates, getCandidates }) {
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
+              <th>Mobile No</th>
               <th>Edit</th>
               <th>Delete</th>
               <th>Details</th>

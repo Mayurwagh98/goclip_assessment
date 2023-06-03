@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Input } from "antd";
 import { candidatesUrl } from "../main";
 import "../styles/CreateCandidate.css";
-import {toast} from "react-hot-toast"
+import { toast } from "react-hot-toast";
+import { Context } from "../main";
 
 const CreateCandidate = () => {
   let [text, setText] = useState({
@@ -19,7 +20,7 @@ const CreateCandidate = () => {
     secondary_school: "NO",
   });
 
-  let localToken = JSON.parse(localStorage.getItem("token"));
+  const { isAuthenticated, localToken } = useContext(Context);
 
   let handleCreate = async () => {
     let config = {
@@ -31,9 +32,9 @@ const CreateCandidate = () => {
       let { data } = await axios.post(`${candidatesUrl}/create`, text, config);
 
       toast.success(data.message);
-      
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -45,7 +46,7 @@ const CreateCandidate = () => {
     });
   };
 
-  if (!localToken) return <Navigate to="/login" />;
+  if (!isAuthenticated) return <Navigate to="/login" />;
   return (
     <div className="main_form_div">
       <form onSubmit={(e) => e.preventDefault()} className="create_form">

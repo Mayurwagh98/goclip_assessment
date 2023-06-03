@@ -22,6 +22,11 @@ td {
 
 }
 
+.pagination{
+    /* border: 1px solid red; */
+    width: 10%;
+    margin: auto;
+}
 .page_button {
     margin: 5px;
     color: #070A52;
@@ -36,6 +41,7 @@ td {
 
 .rows_per_page {
     /* border: 1px solid red; */
+    margin: 0 0 0 2.2rem;
     width: 90%;
     font-size: 17px;
     cursor: pointer;

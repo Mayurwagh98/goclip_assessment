@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Modal } from "antd";
 import CreateCandidate from "../components/CreateCandidate";
-import axios from "axios";
-import { usersUrl } from "../main";
 import "../styles/Dashboard.css";
 import { Navigate } from "react-router-dom";
+import { Context } from "../main";
 
 const Dashboard = () => {
-  let [user, setUser] = useState({});
+  const { isAuthenticated, user, localToken } = useContext(Context);
 
   // -------------- modal -----------
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,33 +20,12 @@ const Dashboard = () => {
     setIsModalOpen(false);
   };
 
-  // user profile
-  let localToken = JSON.parse(localStorage.getItem("token"));
-  let getMyProfile = async () => {
-    let config = {
-      headers: {
-        authorization: `Bearer ${localToken}`,
-      },
-    };
-    try {
-      let {
-        data: { user },
-      } = await axios.get(`${usersUrl}/myprofile`, config);
-
-      // console.log(user);
-      setUser(user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getMyProfile();
-  }, []);
-
   if (!localToken) return <Navigate to="/login" />;
 
-  return (
+  window.onload;
+  return !user ? (
+    <h1>Loading...........</h1>
+  ) : (
     <>
       <div className="profile_div">
         <p>Name:- {user.name}</p>
