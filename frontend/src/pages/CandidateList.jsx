@@ -32,6 +32,9 @@ const CandidateList = () => {
 
   return (
     <>
+      <h3 style={{ textAlign: "center", margin: "10px 0 0 0" }}>
+        Search Candidate by Name....
+      </h3>
       <input
         type="text"
         placeholder="search here"

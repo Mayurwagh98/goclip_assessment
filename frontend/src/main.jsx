@@ -3,9 +3,11 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 
-export const usersUrl = `http://localhost:8000/api/users`;
+// export const usersUrl = `http://localhost:8000/api/users`;
+export const usersUrl = `https://goclip-backend-assessment.onrender.com/api/users`;
 
-export const candidatesUrl = `http://localhost:8000/api/candidates`;
+// export const candidatesUrl = `http://localhost:8000/api/candidates`;
+export const candidatesUrl = `https://goclip-backend-assessment.onrender.com/api/candidates`;
 
 export const Context = createContext({ isAuthenticated: false });
 const ContextWrapper = () => {
